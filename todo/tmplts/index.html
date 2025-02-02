@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>TODO by kiryuhakipyatok</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            width: 100%; 
+            margin-bottom: 20px; 
+            cursor: default;
+        }
+
+        .links {
+            display: flex; 
+            justify-content: space-between; 
+            width: 100%; 
+            height: 150px; 
+            flex-wrap: wrap;
+        }
+
+        .ref {
+            text-decoration: none;
+            color: grey;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 45%; 
+            height: 100%; 
+            background: #e0e0e0; 
+            border-radius: 5px; 
+            transition: background 0.3s, color 0.3s; 
+            margin-bottom: 10px;
+        }
+
+        .ref:hover {
+            background: #007bff; 
+            color: white; 
+        }
+        @media (max-width: 425px) {
+    .ref {
+        width: 65%; 
+        
+    }
+    .links{
+        justify-content: center;
+    }
+    .container{
+        height: 470px;
+    }
+    
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TODO <p style="font-size: 20px; cursor: default;">
+            by kiryuha kipyatok
+        </p></h1>
+        <div class="links">
+            <a href="/log" class="ref">Войти</a>
+            <a href="/reg" class="ref">Регистрация</a>
+        </div>
+    </div>
+</body>
+</html>

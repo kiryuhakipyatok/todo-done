@@ -1,0 +1,136 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    padding: 50px;
+    margin:0;
+    height: 100vh;
+  
+}
+
+.container {
+    max-width: 800px; 
+    margin: 0 auto;
+    width: 100%; 
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%; 
+}
+
+li {
+    padding: 10px;
+    margin: 5px 0;
+    background: #e0e0e0;
+    border-radius: 5px;
+    width: 100%; 
+    justify-content: space-between;
+    align-items: center;
+    display: grid;
+    grid-template-columns: calc(100% - 50px) 50px;
+}
+
+.task-text{
+    overflow: auto; 
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    cursor: default;
+    text-align: left;
+}
+
+
+
+#userInfo {
+    font-size: 20px; 
+    cursor: default;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    padding-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    min-width: 200px; 
+    text-align: center;
+}
+
+h1, h2, h3{
+    text-align: center;
+    color: #333;
+    cursor: default;
+}
+
+.remove {
+    cursor: pointer;
+    color: #ff0000;
+}
+
+.ref {
+    text-decoration: none;
+    color: grey;
+    cursor: default;
+}
+
+a {
+    text-decoration: none;
+    color: grey;
+    cursor: pointer;
+    transition: color 0.5s ease;
+}
+
+a:hover{
+    color:#333;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%; 
+    max-width: 150px; 
+    padding: 10px;
+    background: #e0e0e0; 
+    color: grey;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s; 
+}
+
+#logoutButton {
+    background: #e0e0e0;
+    width: 100%; 
+    max-width: 100px; 
+}
+
+#logoutButton:hover{
+    color: white;
+    background: #902727;
+}
+
+button:hover {
+    background: #007bff; 
+    color: white;
+}

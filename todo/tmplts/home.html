@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Домашняя страница</title>
+</head>
+<body>
+    <div class="container">
+        <b><p style="font-size: 35px; color: #333; text-align: center;" id="userInfo"></p></b>
+        <br>
+        <button id="logoutButton">Выйти</button>
+        <br>
+        <form id="taskForm">
+            <h2>Список задач</h2>
+            <br>
+            <input type="text" id="timeInput"  placeholder="Введите время..." />
+            <input type="text" id="taskInput" placeholder="Введите задачу..." />
+            <button style="margin-bottom: 10px;" id="addTaskButton">Добавить задачу</button>
+            <ul id="taskList"></ul>
+        </form>
+    </div>
+    <script>
+        let userId; 
+        async function checkLogin() {
+            const response = await fetch('/api/user');
+            if (response.ok) {
+                const user = await response.json();
+                userId = user.id; 
+                document.getElementById('userInfo').innerText = `${user.nickname}`;
+               loadTasks()
+            } else {
+                alert('Вы не вошли в систему.');
+                window.location.href = '/log';
+            }
+        }
+        
+        checkLogin();
+    
+        document.getElementById('logoutButton').addEventListener('click', async function() {
+            let q = confirm("Выйти из аккаунта?")
+            if (q===true){
+                const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                
+            });
+            if (response.ok && q===true) {
+                window.location.href = '/log';
+            }
+            }
+            return 
+        });
+        
+       
+        
+        document.getElementById('addTaskButton').addEventListener('click', async function(event) {
+            event.preventDefault();
+             
+            const time = document.getElementById('timeInput').value
+         
+            if (!document.getElementById('taskInput').value.trim()) {
+            alert('Задача не может быть пустой!');
+            return; 
+            }
+            const task = document.getElementById('taskInput').value
+           
+
+            try {
+                const response = await fetch('/api/addtask', {
+                 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify( { user_id: userId, time, task} ),
+                    
+                });
+                document.getElementById('taskInput').value = ''
+                document.getElementById('timeInput').value = ''
+                await loadTasks()
+                if (!response.ok) {
+        
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error occurred durin adding time and task');
+            }
+
+           
+        } catch (error) {
+          
+           console.error('Ошибка:', error.message);
+            alert("Adding error")
+           
+        }
+    });
+
+    async function loadTasks() {
+        try{
+            const response = await fetch(`/api/gettask/${userId}`)
+            if (!response.ok){
+                throw new Error('Ошибка при загрузке задач')
+            }
+            const tasks = await response.json()
+            
+            taskList.innerHTML = '';
+            tasks.forEach(task=>addTaskToList(task))
+        }catch(error){
+            console.error(error);
+            alert(error.message);
+        }
+    }
+
+    function addTaskToList(task) {
+    const li = document.createElement('li');
+
+ 
+    const taskDiv = document.createElement('div');
+    const taskTime = `${task.time} — ${task.task}`; 
+    const taskArray = taskTime.split(''); 
+
+ 
+    taskArray.forEach(e => {
+        const span = document.createElement('span');
+        span.innerHTML = e === ' ' ? '&nbsp;' : e; 
+        taskDiv.appendChild(span);
+    });
+
+    taskDiv.classList.add('task-text'); 
+
+ 
+    const removeButton = document.createElement('span');
+    removeButton.textContent = '\u2716';
+    removeButton.classList.add('remove');
+    removeButton.style.cursor = 'pointer'; 
+    removeButton.style.marginLeft = '10px'; 
+
+    removeButton.onclick = async function() {
+        try {
+            const response = await fetch(`/api/deletetask/${task.task_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Ошибка при удалении задачи');
+            }
+
+            
+            taskList.removeChild(li);
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
+    };
+
+    li.appendChild(taskDiv);
+    li.appendChild(removeButton);
+    taskList.appendChild(li); 
+}
+    </script>
+</body>
+</html>

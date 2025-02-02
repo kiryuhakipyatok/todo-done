@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Регестрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <br>
+    <form class="container" style="max-width: 400px;" id="registerForm">
+        <input type="text" id="nickname" placeholder="Имя" required>
+        <input type="email" id="email" placeholder="Почта" required>
+        <input type="text" id="login" placeholder="Логин" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <button type="submit">Зарегестрироваться</button>
+        <br>
+        <p class="ref">Уже есть аккаунт? <a href="/log"><b>Войти</b></a><br><br><a href="/">На главную</a></p>
+    </form>
+   
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const nickname = document.getElementById('nickname').value;
+            const email = document.getElementById('email').value;
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nickname, email, login, password }),
+                });
+
+                if (!response.ok) {
+        
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error occurred during registration');
+            }
+
+            const responseData = await response.json(); 
+            
+            alert("Registration was successful");
+            window.location.href = '/log'
+        } catch (error) {
+           
+            alert("Registration error, try again")
+            window.location.href = '/reg'
+        }
+    });
+    </script>
+</body>
+</html>
